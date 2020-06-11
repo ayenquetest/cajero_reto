@@ -1,1 +1,1 @@
-# practicabasica_github
+	Reto del proyecto cajero del curso de Programación Básica.
