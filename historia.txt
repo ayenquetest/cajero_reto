@@ -1,1 +1,2 @@
 Hola este es el primer texto, realizado en git.
+Aqui va el segundo cambio para realizar otro commit.
