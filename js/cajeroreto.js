@@ -70,3 +70,95 @@ caja.push(new Billete(1,20));
 var saldoCaja = sumaCaja(caja);
 saldo.innerHTML = ("<strong> Saldo actual del cajero: " + saldoCaja + "<hr>");
 console.log(caja);
+
+
+function reiniciarBoton()
+{
+    t.value = null;
+
+}
+
+
+function entregarDinero() 
+{
+    dinero = parseInt(t.value);
+    var dineroTemp = dinero;
+    var hora = devolverHora();
+   for (var bi of caja)
+    {
+        if (dinero > 0)
+        {
+            div = Math.floor(dinero / bi.valor);
+
+            if(div > bi.cantidad)
+            {
+                papeles = bi.cantidad;
+            }
+            else
+            {
+                papeles = div;
+            }
+
+            entregado.push(new Billete(bi.valor,papeles));
+            dinero = dinero - (bi.valor*papeles);
+        }
+
+    }
+
+    if(dinero > 0)
+    {
+        resultado.innerHTML +="<h1> Saldo insuficiente </h1>"; //agrega un valor a una etiqueta del HTML, atributo del objeto resultado
+        console.log(caja);
+        console.log(entregado);
+        console.log(dinero);
+    }
+    else
+    {
+       for(var e of entregado)
+       {
+           if(e.cantidad > 0)
+           {
+            resultado.innerHTML += ("<li><strong>" + e.cantidad + " </strong>" + e.devolvertipo() + "s de S/. <strong>" + e.valor + "</strong>" + "</ul></li><img src=" + e.imagen.src + "> <hr>");
+
+            for(var c of caja)
+            {
+                 if(c.valor == e.valor)
+                 {
+                     c.cantidad = c.cantidad - e.cantidad;
+                 }
+            }
+
+           }
+       }
+       horario.innerHTML += ("Retiro de  S/."+ dineroTemp +  " | Hora : "  + hora + "<br>");
+       console.log(caja);
+       console.log(entregado);
+       saldoCaja = saldoCaja - sumaCaja(entregado);
+       saldo.innerHTML = ("<strong> Saldo actual del cajero: " + saldoCaja + "<hr>");
+       
+    }
+    entregado = [];
+}
+
+function sumaCaja(arreglo)
+{
+    
+    var suma = 0;
+    for(var i of arreglo)
+    {
+        suma += i.cantidad*i.valor;
+    }
+
+    return suma;
+
+}
+
+function devolverHora()
+{
+    var tiempo = new Date();
+    var hora = tiempo.getHours();
+    var minuto = tiempo.getMinutes();
+    var segundo = tiempo.getSeconds();
+    var horaTexto = hora + " : " + minuto + " : " + segundo;
+    return horaTexto;
+}
